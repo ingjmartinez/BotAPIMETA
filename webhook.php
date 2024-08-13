@@ -1,6 +1,6 @@
 <?php 
     const TOKEN_HELPPRO = "HELPPROAPIMETA";
-    const WEBHOOK_URL = "https://botapiwhatsap.helppro.tech/webhook.php";
+    const WEBHOOK_URL = "https://apimeta.helppro.tech/webhook.php";
 
     function verifdicarToken($req,$res){
         try{
