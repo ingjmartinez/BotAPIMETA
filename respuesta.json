@@ -1,0 +1,39 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "392007023994946",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15550337571",
+                            "phone_number_id": "397221650140218"
+                        },
+                        "contacts": [
+                            {
+                                "profile": {
+                                    "name": "Yunior MartineZ"
+                                },
+                                "wa_id": "18095169172"
+                            }
+                        ],
+                        "messages": [
+                            {
+                                "from": "18095169172",
+                                "id": "wamid.HBgLMTgwOTUxNjkxNzIVAgASGBYzRUIwNEVCNzVEOUMzNUQzODQzQzMzAA==",
+                                "timestamp": "1723516524",
+                                "text": {
+                                    "body": "enviado desde la pc"
+                                },
+                                "type": "text"
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}
