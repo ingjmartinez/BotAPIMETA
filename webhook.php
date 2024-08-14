@@ -49,6 +49,7 @@
 
     function EnviarMensajeWhatsapp($comentario, $numero) {
         $comentario = strtolower($comentario);
+        $data = [];
 
         if (strpos($comentario, 'hola') !== false) {
             $data = [
@@ -85,86 +86,82 @@
                     "address" => "Cercado de Lima"
                 ]
             ];
-        } // Añadir otros condicionales según sea necesario
-        else if ($comentario=='3') {
-        $data = json_encode([
-            "messaging_product" => "whatsapp",    
-            "recipient_type"=> "individual",
-            "to" => $numero,
-            "type" => "document",
-            "document"=> [
-                "link" => "http://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf",
-                "caption" => "Temario del Curso #001"
-            ]
-        ]);
-
-    }else if ($comentario=='4') {
-        $data = json_encode([
-            "messaging_product" => "whatsapp",    
-            "recipient_type"=> "individual",
-            "to" => $numero,
-            "type" => "audio",
-            "audio"=> [
-                "link" => "https://filesamples.com/samples/audio/mp3/sample1.mp3",
-            ]
-        ]);
-
-    }else if ($comentario=='5') {
-        $data = json_encode([
-            "messaging_product" => "whatsapp",
-            "to" => $numero,
-            "text" => array(
-                "preview_url" => true,
-                "body" => "Introducción al curso! https://youtu.be/6ULOE2tGlBM"
-            )
-        ]);
-
-    }else if ($comentario=='6') {
-        $data = json_encode([
-            "messaging_product" => "whatsapp",
-            "recipient_type" => "individual",
-            "to" => $numero,
-            "type" => "text",
-            "text" => array(
-                "preview_url" => false,
-                "body" => "🤝 En breve me pondré en contacto contigo. 🤓"
-            )
-        ]);
-    }else if ($comentario=='7') {
-        $data = json_encode([
-            "messaging_product" => "whatsapp",
-            "recipient_type" => "individual",
-            "to" => $numero,
-            "type" => "text",
-            "text" => array(
-                "preview_url" => false,
-                "body" => "📅 Horario de Atención: Lunes a Viernes. \n🕜 Horario: 9:00 a.m. a 5:00 p.m. 🤓"
-            )
-        ]);    
-
-    }else if (strpos($comentario,'gracias') !== false) {
-        $data = json_encode([
-            "messaging_product" => "whatsapp",
-            "recipient_type" => "individual",
-            "to" => $numero,
-            "type" => "text",
-            "text" => array(
-                "preview_url" => false,
-                "body" => "Gracias a ti por contactarme. 🤩"
-            )
-        ]);
-
-    }else if (strpos($comentario,'adios') !== false || strpos($comentario,'bye') !== false || strpos($comentario,'nos vemos') !== false || strpos($comentario,'adiós') !== false){
-        $data = json_encode([
-            "messaging_product" => "whatsapp",
-            "recipient_type" => "individual",
-            "to" => $numero,
-            "type" => "text",
-            "text" => array(
-                "preview_url" => false,
-                "body" => "Hasta luego. 🌟"
-            )
-        ]);
+        } else if ($comentario == '3') {
+            $data = [
+                "messaging_product" => "whatsapp",    
+                "recipient_type" => "individual",
+                "to" => $numero,
+                "type" => "document",
+                "document" => [
+                    "link" => "http://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf",
+                    "caption" => "Temario del Curso #001"
+                ]
+            ];
+        } else if ($comentario == '4') {
+            $data = [
+                "messaging_product" => "whatsapp",    
+                "recipient_type" => "individual",
+                "to" => $numero,
+                "type" => "audio",
+                "audio" => [
+                    "link" => "https://filesamples.com/samples/audio/mp3/sample1.mp3"
+                ]
+            ];
+        } else if ($comentario == '5') {
+            $data = [
+                "messaging_product" => "whatsapp",
+                "to" => $numero,
+                "type" => "text",
+                "text" => [
+                    "preview_url" => true,
+                    "body" => "Introducción al curso! https://youtu.be/6ULOE2tGlBM"
+                ]
+            ];
+        } else if ($comentario == '6') {
+            $data = [
+                "messaging_product" => "whatsapp",
+                "recipient_type" => "individual",
+                "to" => $numero,
+                "type" => "text",
+                "text" => [
+                    "preview_url" => false,
+                    "body" => "🤝 En breve me pondré en contacto contigo. 🤓"
+                ]
+            ];
+        } else if ($comentario == '7') {
+            $data = [
+                "messaging_product" => "whatsapp",
+                "recipient_type" => "individual",
+                "to" => $numero,
+                "type" => "text",
+                "text" => [
+                    "preview_url" => false,
+                    "body" => "📅 Horario de Atención: Lunes a Viernes. \n🕜 Horario: 9:00 a.m. a 5:00 p.m. 🤓"
+                ]
+            ];
+        } else if (strpos($comentario, 'gracias') !== false) {
+            $data = [
+                "messaging_product" => "whatsapp",
+                "recipient_type" => "individual",
+                "to" => $numero,
+                "type" => "text",
+                "text" => [
+                    "preview_url" => false,
+                    "body" => "Gracias a ti por contactarme. 🤩"
+                ]
+            ];
+        } else if (strpos($comentario, 'adios') !== false || strpos($comentario, 'bye') !== false || strpos($comentario, 'nos vemos') !== false || strpos($comentario, 'adiós') !== false) {
+            $data = [
+                "messaging_product" => "whatsapp",
+                "recipient_type" => "individual",
+                "to" => $numero,
+                "type" => "text",
+                "text" => [
+                    "preview_url" => false,
+                    "body" => "Hasta luego. 🌟"
+                ]
+            ];
+        }
 
         // Solo ejecutar si se ha definido la variable $data
         if (!empty($data)) {
