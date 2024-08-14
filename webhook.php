@@ -58,6 +58,17 @@
                     "body" => "🚀 Hola, visita mi web oficial validacion de premios, premios.helppro.com.do para mas informacion.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Consultar sorteos. ❔\n2️⃣. Ubicación de los centro de pago. 📍\n3️⃣. Canales oficiales de sorteos. 📄\n4️⃣. Horarios de sorteos. 🕜\n5️⃣. Canales oficiales de sorteos. ⏯️\n6️⃣. Hablar con soporte. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜"
                 ]
             ]);
+        }else if ($comentario=='1') {
+            $data = json_encode([
+                "messaging_product" => "whatsapp",    
+                "recipient_type"=> "individual",
+                "to" => $numero,
+                "type" => "text",
+                "text"=> [
+                    "preview_url" => false,
+                    "body"=> "Consultar sorteos."
+                ]
+            ]);
         }else{
             $data = json_encode([
                 "messaging_product" => "whatsapp",    
