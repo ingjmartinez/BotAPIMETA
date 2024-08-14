@@ -81,14 +81,20 @@
                     "longitude" => "-77.03377940839486",
                     "name" => "Estadio Nacional del Perú",
                     "address" => "Cercado de Lima"
-                ],
-                    [
-                "latitude" => "-12.067158831865067",
-                "longitude" => "-77.03377940839486",
-                "name" => "Estadio Nacional del Perú2",
-                "address" => "Cercado de Lima2"
-            ]
-                
+                ]
+
+            ]);
+
+        }else if ($comentario=='3') {
+            $data = json_encode([
+                "messaging_product" => "whatsapp",    
+                "recipient_type"=> "individual",
+                "to" => $numero,
+                "type" => "document",
+                "document"=> [
+                    "link" => "http://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf",
+                    "caption" => "Temario del Curso #001"
+                ]
             ]);
 
         }else{
