@@ -59,6 +59,16 @@
                 ]
             ]);
         }else{
+            $data = json_encode([
+                "messaging_product" => "whatsapp",    
+                "recipient_type" => "individual",
+                "to" => $numero,
+                "type" => "text",
+                "text" => [
+                    "preview_url" => false,
+                    "body" => "🚀 Hola, visita mi web anderson-bastidas.com para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Curso. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en pdf. 📄\n4️⃣. Audio explicando curso. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con AnderCode. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜"
+                ]
+            ]);
 
         }
 
