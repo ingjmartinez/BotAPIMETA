@@ -69,6 +69,21 @@
                     "body"=> "Consultar sorteos."
                 ]
             ]);
+
+        }else if ($comentario=='2') {
+            $data = json_encode([
+                "messaging_product" => "whatsapp",    
+                "recipient_type"=> "individual",
+                "to" => $numero,
+                "type" => "location",
+                "location"=> [
+                    "latitude" => "-12.067158831865067",
+                    "longitude" => "-77.03377940839486",
+                    "name" => "Estadio Nacional del Perú",
+                    "address" => "Cercado de Lima"
+                ]
+            ]);
+
         }else{
             $data = json_encode([
                 "messaging_product" => "whatsapp",    
