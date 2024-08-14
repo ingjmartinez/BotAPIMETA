@@ -4,46 +4,62 @@
 
     function verificarToken($req, $res) {
         try {
-            $token = $req['hub_verify_token'];
-            $challenge = $req['hub_challenge'];
+            if (isset($req['hub_verify_token']) && isset($req['hub_challenge'])) {
+                $token = $req['hub_verify_token'];
+                $challenge = $req['hub_challenge'];
 
-            if (isset($challenge) && isset($token) && $token == TOKEN_HELPPRO) {
-                echo $challenge;
+                if ($token === TOKEN_HELPPRO) {
+                    echo $challenge;
+                    exit; // Control de salida para evitar múltiples respuestas
+                } else {
+                    http_response_code(400);
+                    echo "Invalid token";
+                    exit; // Control de salida para evitar múltiples respuestas
+                }
             } else {
                 http_response_code(400);
-                echo "Invalid token";
+                echo "Missing token or challenge";
+                exit; // Control de salida para evitar múltiples respuestas
             }
         } catch (Exception $e) {
             http_response_code(400);
             echo "Error processing token verification";
+            exit; // Control de salida para evitar múltiples respuestas
         }
     }
 
     function recibirMensajes($req) {
         try {
-            $entry = $req['entry'][0];
-            $changes = $entry['changes'][0];
-            $value = $changes['value'];
-            $objetomensaje = $value['messages'];
-            $mensaje = $objetomensaje[0];
+            if (isset($req['entry'][0]['changes'][0]['value']['messages'][0])) {
+                $entry = $req['entry'][0];
+                $changes = $entry['changes'][0];
+                $value = $changes['value'];
+                $mensaje = $value['messages'][0];
 
-            $comentario = $mensaje['text']['body'];
-            $numero = $mensaje['from'];
+                $comentario = $mensaje['text']['body'];
+                $numero = $mensaje['from'];
 
-            EnviarMensajeWhatsapp($comentario, $numero);
+                EnviarMensajeWhatsapp($comentario, $numero);
 
-            // Registrar el número en un archivo log
-            $archivo = fopen("log.txt", "a");
-            $texto = json_encode($numero);
-            fwrite($archivo, $texto . PHP_EOL);
-            fclose($archivo);
+                // Registrar el número en un archivo log
+                $archivo = fopen("log.txt", "a");
+                $texto = json_encode($numero);
+                fwrite($archivo, $texto . PHP_EOL);
+                fclose($archivo);
 
-            // Enviar respuesta estándar al servidor
-            http_response_code(200);
-            echo "EVENT_RECEIVED";
+                // Enviar respuesta estándar al servidor
+                http_response_code(200);
+                echo "EVENT_RECEIVED";
+                exit; // Control de salida para evitar múltiples respuestas
+            } else {
+                http_response_code(400);
+                echo "No message data found";
+                exit; // Control de salida para evitar múltiples respuestas
+            }
         } catch (Exception $e) {
             http_response_code(500);
             echo "Error processing the message";
+            exit; // Control de salida para evitar múltiples respuestas
         }
     }
 
@@ -189,13 +205,11 @@
         $input = file_get_contents('php://input');
         $data = json_decode($input, true);
 
-        recibirMensajes($data);
-    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if (isset($_GET['hub_mode']) && isset($_GET['hub_verify_token']) && isset($_GET['hub_challenge']) && $_GET['hub_mode'] === 'subscribe' && $_GET['hub_verify_token'] === TOKEN_HELPPRO) {
-            echo $_GET['hub_challenge'];
+        if ($data) {
+            recibirMensajes($data);
         } else {
-            http_response_code(403);
-            echo "Forbidden";
+            http_response_code(400);
+            echo "Invalid JSON input";
+            exit; // Control de salida para evitar
         }
-    }
-?>
+    }        
