@@ -80,13 +80,14 @@
                     "latitude" => "-12.067158831865067",
                     "longitude" => "-77.03377940839486",
                     "name" => "Estadio Nacional del Perú",
-                    "address" => "Cercado de Lima",
-
-                    "latitude" => "-12.067158831865067",
-                    "longitude" => "-77.03377940839486",
-                    "name" => "Estadio Nacional del cuba",
                     "address" => "Cercado de Lima"
-                ]
+                ],
+                    [
+                "latitude" => "-12.067158831865067",
+                "longitude" => "-77.03377940839486",
+                "name" => "Estadio Nacional del Perú2",
+                "address" => "Cercado de Lima2"
+            ]
                 
             ]);
 
