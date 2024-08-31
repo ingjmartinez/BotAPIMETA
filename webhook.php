@@ -96,8 +96,8 @@
                 "to" => $numero,
                 "type" => "location",
                 "location" => [
-                    "latitude" => "-12.067158831865067",
-                    "longitude" => "-77.03377940839486",
+                    "latitude" => "18.4613094",
+                    "longitude" => "-69.3106563",
                     "name" => "Estadio Nacional del Perú",
                     "address" => "Cercado de Lima"
                 ]
