@@ -98,8 +98,8 @@
                 "location" => [
                     "latitude" => "18.4613094",
                     "longitude" => "-69.3106563",
-                    "name" => "Estadio Nacional del Perú",
-                    "address" => "Cercado de Lima"
+                    "name" => "Centro de pago San pedro",
+                    "address" => "Cerca de la parada astrapu"
                 ]
             ];
         } else if ($comentario == '3') {
