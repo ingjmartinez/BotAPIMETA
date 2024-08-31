@@ -99,7 +99,7 @@
                     "latitude" => "18.46134886387329",
                     "longitude" => "-69.31063024913972",
                     "name" => "Centro de pago San pedro",
-                    "address" => "Cerca de la parada astrapu"
+                    "address" => "Cerca de Casino Colombo"
                 ]
             ];
         } else if ($comentario == '3') {
