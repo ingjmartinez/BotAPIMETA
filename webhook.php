@@ -99,7 +99,7 @@
                 "type" => "document",
                 "document" => [
                     "link" => "http://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf",
-                    "caption" => "Temario del Curso #001"
+                    "caption" => "Temario del Curso #0"
                 ]
             ];
         } else if ($comentario == '4') {
