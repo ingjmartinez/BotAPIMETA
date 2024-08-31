@@ -2,64 +2,53 @@
     const TOKEN_HELPPRO = "HELPPROAPIMETA";
     const WEBHOOK_URL = "https://apiconsultas.helppro.tech/webhook.php";
 
-    function verificarToken($req, $res) {
-        try {
-            if (isset($req['hub_verify_token']) && isset($req['hub_challenge'])) {
-                $token = $req['hub_verify_token'];
-                $challenge = $req['hub_challenge'];
-
-                if ($token === TOKEN_HELPPRO) {
-                    echo $challenge;
-                    exit; // Control de salida para evitar múltiples respuestas
-                } else {
-                    http_response_code(400);
-                    echo "Invalid token";
-                    exit; // Control de salida para evitar múltiples respuestas
-                }
+    function verificarToken($req,$res){
+        try{
+            $token = $req['hub_verify_token'];
+            $challenge = $req['hub_challenge'];
+    
+            if (isset($challenge) && isset($token) && $token === TOKEN_HELPPRO) {
+                $res->send($challenge);
             } else {
-                http_response_code(400);
-                echo "Missing token or challenge";
-                exit; // Control de salida para evitar múltiples respuestas
+                $res->status(400)->send();
             }
-        } catch (Exception $e) {
-            http_response_code(400);
-            echo "Error processing token verification";
-            exit; // Control de salida para evitar múltiples respuestas
+
+        }catch(Exception $e){
+            $res ->status(400)->send();
         }
     }
 
-    function recibirMensajes($req) {
+    function recibirMensajes($req, $res) {
+        
         try {
-            if (isset($req['entry'][0]['changes'][0]['value']['messages'][0])) {
-                $entry = $req['entry'][0];
-                $changes = $entry['changes'][0];
-                $value = $changes['value'];
-                $mensaje = $value['messages'][0];
-
-                $comentario = $mensaje['text']['body'];
-                $numero = $mensaje['from'];
-
-                EnviarMensajeWhatsapp($comentario, $numero);
-
-                // Registrar el número en un archivo log
-                $archivo = fopen("log.txt", "a");
-                $texto = json_encode($numero);
-                fwrite($archivo, $texto . PHP_EOL);
+            
+            $entry = $req['entry'][0];
+            $changes = $entry['changes'][0];
+            $value = $changes['value'];
+            $mensaje = $value['messages'][0];
+            
+            $comentario = $mensaje['text']['body'];
+            $numero = $mensaje['from'];
+            
+            $id = $mensaje['id'];
+            
+            $archivo = "log.txt";
+            
+            if (!verificarTextoEnArchivo($id, $archivo)) {
+                $archivo = fopen($archivo, "a");
+                $texto = json_encode($id).",".$numero.",".$comentario;
+                fwrite($archivo, $texto);
                 fclose($archivo);
-
-                // Enviar respuesta estándar al servidor
-                http_response_code(200);
-                echo "EVENT_RECEIVED";
-                exit; // Control de salida para evitar múltiples respuestas
-            } else {
-                http_response_code(400);
-                echo "No message data found";
-                exit; // Control de salida para evitar múltiples respuestas
+                
+                EnviarMensajeWhastapp($comentario,$numero);
             }
+    
+            $res->header('Content-Type: application/json');
+            $res->status(200)->send(json_encode(['message' => 'EVENT_RECEIVED']));
+
         } catch (Exception $e) {
-            http_response_code(500);
-            echo "Error processing the message";
-            exit; // Control de salida para evitar múltiples respuestas
+            $res->header('Content-Type: application/json');
+            $res->status(200)->send(json_encode(['message' => 'EVENT_RECEIVED']));
         }
     }
 
@@ -201,15 +190,29 @@
         }
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $input = file_get_contents('php://input');
-        $data = json_decode($input, true);
-
-        if ($data) {
-            recibirMensajes($data);
+    function verificarTextoEnArchivo($texto, $archivo) {
+        $contenido = file_get_contents($archivo);
+        
+        if (strpos($contenido, $texto) !== false) {
+            return true; // El texto ya existe en el archivo
         } else {
-            http_response_code(400);
-            echo "Invalid JSON input";
-            exit; // Control de salida para evitar
+            return false; // El texto no existe en el archivo
         }
-    }        
+    }
+
+
+    if ($_SERVER['REQUEST_METHOD']==='POST'){
+        $input = file_get_contents('php://input');
+        $data = json_decode($input,true);
+
+        recibirMensajes($data,http_response_code());
+        
+    }else if($_SERVER['REQUEST_METHOD']==='GET'){
+        if(isset($_GET['hub_mode']) && isset($_GET['hub_verify_token']) && isset($_GET['hub_challenge']) && $_GET['hub_mode'] === 'subscribe' && $_GET['hub_verify_token'] === TOKEN_HELPPRO){
+            echo $_GET['hub_challenge'];
+        }else{
+            http_response_code(403);
+        }
+    }
+?>
+       
